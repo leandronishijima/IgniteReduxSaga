@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, ListView, Alert } from 'react-native';
+import { View, ScrollView, Text, ListView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import RocketSeatActions from '../Redux/RocketSeatRedux';
 import { RocketSeatSelectors } from '../Redux/RocketSeatRedux';
@@ -15,6 +15,14 @@ class RocketSeatList extends Component {
     this.props.listProducts();
   }
 
+  parseDataSource(data) {
+    const rowHasChanged = (r1, r2) => r1 !== r2;
+
+    const ds = new ListView.DataSource({ rowHasChanged });
+
+    return ds.cloneWithRows(data);
+  }
+
   renderItem(rowData) {
     return (
       <View style={styles.row}>
@@ -27,18 +35,18 @@ class RocketSeatList extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        {/* <ListView
+        <ListView
           contentContainerStyle={styles.listContent}
-          dataSource={this.props.docs}
+          dataSource={this.parseDataSource(this.props.docs)}
           renderRow={this.renderItem}
-        /> */}
+          enableEmptySections
+        />
       </ScrollView>
     );
   }
 }
 
 const mapStateToProps = state => {
-  Alert.alert('mapState', JSON.stringify(state.rocketseat.payload));
   return {
     docs: RocketSeatSelectors.getPayload(state)
   };
