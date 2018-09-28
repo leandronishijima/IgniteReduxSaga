@@ -16,37 +16,33 @@ export default Creators;
 
 export const INITIAL_STATE = Immutable({
   data: null,
-  fetching: null,
+  fetching: false,
   payload: [],
-  type: null,
   error: null
 });
 
 /* ------------- Selectors ------------- */
 
+const getState = state => state.rocketseat;
+
 export const RocketSeatSelectors = {
-  getData: state => state.rocketseat.data,
-  getPayload: state => state.rocketseat.payload,
-  getType: state => state.rocketseat.type
+  getData: state => getState(state).data,
+  getPayload: state => getState(state).payload
 };
 
 /* ------------- Reducers ------------- */
 
-// request the data from an api
 export const request = state => state.merge({ fetching: true });
 
-// successful api lookup
 export const success = (state, action) => {
   const retorno = action.payload;
   return state.merge({
     fetching: false,
     error: null,
-    payload: retorno.docs,
-    type: typeof retorno.docs
+    payload: retorno.docs
   });
 };
 
-// Something went wrong somewhere.
 export const failure = state => state.merge({ fetching: false, error: true });
 
 /* ------------- Hookup Reducers To Types ------------- */

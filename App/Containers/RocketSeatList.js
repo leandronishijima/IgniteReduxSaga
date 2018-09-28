@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, ListView, Alert } from 'react-native';
+import { View, ScrollView, Text, ListView } from 'react-native';
 import { connect } from 'react-redux';
 import RocketSeatActions from '../Redux/RocketSeatRedux';
 import { RocketSeatSelectors } from '../Redux/RocketSeatRedux';
@@ -25,8 +25,8 @@ class RocketSeatList extends Component {
 
   renderItem(rowData) {
     return (
-      <View style={styles.row}>
-        <Text style={styles.boldLabel}>{rowData.title}</Text>
+      <View>
+        <Text>{rowData.title}</Text>
         <Text style={styles.label}>{rowData.description}</Text>
       </View>
     );
@@ -36,7 +36,6 @@ class RocketSeatList extends Component {
     return (
       <ScrollView style={styles.container}>
         <ListView
-          contentContainerStyle={styles.listContent}
           dataSource={this.parseDataSource(this.props.docs)}
           renderRow={this.renderItem}
           enableEmptySections
